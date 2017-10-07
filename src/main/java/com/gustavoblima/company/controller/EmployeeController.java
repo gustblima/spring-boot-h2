@@ -1,7 +1,7 @@
 package com.gustavoblima.company.controller;
 
-import com.gustavoblima.company.model.Company;
-import com.gustavoblima.company.model.Employee;
+import com.gustavoblima.company.entity.Company;
+import com.gustavoblima.company.entity.Employee;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
