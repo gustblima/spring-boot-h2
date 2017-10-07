@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface EmployeeRepository  extends JpaRepository<Employee, Long> {
-    @Query("select c from Company c where c.name like %:jobTitle%")
+    @Query("select c from Company c where lower(c.name) like concat('%',:jobTitle,'%')")
     List<Employee> findByJobTitleContaining(@Param("jobTitle") String jobTitle);
 }

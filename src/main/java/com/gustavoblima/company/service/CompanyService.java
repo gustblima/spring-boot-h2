@@ -19,7 +19,7 @@ public class CompanyService implements  ICompanyService {
         if(name == null){
             return companyRepository.findAll();
         }
-        return companyRepository.findByNameContaining(name);
+        return companyRepository.findByNameContaining(name.toLowerCase());
     }
 
     @Override

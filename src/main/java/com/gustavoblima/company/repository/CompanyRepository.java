@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
-    @Query("select c from Company c where c.name like %:name%")
+    @Query("select c from Company c where lower(c.name) like concat('%', :name, '%')")
     List<Company> findByNameContaining(@Param("name") String name);
 
 }

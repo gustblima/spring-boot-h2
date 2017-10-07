@@ -18,7 +18,7 @@ public class EmployeeService implements  IEmployeeService {
 
     @Override
     public List<Employee> findEmployees(String jobTitle) {
-        return employeeRepository.findByJobTitleContaining(jobTitle);
+        return employeeRepository.findByJobTitleContaining(jobTitle.toLowerCase());
     }
 
     @Override
