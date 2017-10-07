@@ -1,42 +1,34 @@
-package com.gustavoblima.company.model;
+package com.gustavoblima.company.entity;
 
-import org.springframework.data.annotation.Id;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name= "tb_company")
+@Table(name = "tb_company")
 public class Company{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long companyId;
+    private Long id;
+
     private String name;
     private String cnpj;
     private String telephone;
     private String website;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Industry industry;
-
-    @OneToMany
-    private List<Employee> employees = new ArrayList<Employee>();
-
-    public List<Employee> getEmployees() {
-        return employees;
+    
+    public Long getId() {
+        return id;
     }
 
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
-    }
-
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -1,4 +1,4 @@
-package com.gustavoblima.company.model;
+package com.gustavoblima.company.entity;
 
 public enum Gender {
     FEMALE, MALE
