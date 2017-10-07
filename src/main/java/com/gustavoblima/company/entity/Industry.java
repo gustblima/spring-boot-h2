@@ -1,21 +1,25 @@
-package com.gustavoblima.company.model;
+package com.gustavoblima.company.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "tb_industry")
 public class Industry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long industryId;
-    String title;
+    private Long id;
+    private String title;
 
-    public Long getIndustryId() {
-        return industryId;
+    public Long getId() {
+        return id;
     }
 
-    public void setIndustryId(Long industryId) {
-        this.industryId = industryId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -34,6 +38,7 @@ public class Industry {
         this.companies = companies;
     }
 
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(mappedBy = "industry", fetch = FetchType.LAZY)
     private List<Company> companies = new ArrayList<>();
 }
