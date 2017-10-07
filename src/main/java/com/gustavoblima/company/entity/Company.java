@@ -15,14 +15,16 @@ public class Company{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Industry industry;
+
     private String name;
     private String cnpj;
     private String telephone;
     private String website;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Industry industry;
-    
+
+
     public Long getId() {
         return id;
     }
