@@ -1,4 +1,14 @@
 package com.gustavoblima.company.service;
 
-public interface ICompanyService {
+import com.gustavoblima.company.entity.Company;
+
+import java.util.List;
+
+public interface ICompanyService  {
+
+    List<Company> findCompanies(String name);
+
+    Company createCompany(Company company);
+
+
 }
