@@ -1,8 +1,13 @@
 package com.gustavoblima.company.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.gustavoblima.company.converter.GenderConverter;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_employee")
@@ -10,18 +15,28 @@ public class Employee{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    @Size(min = 2)
     private String name;
 
     @Convert(converter = GenderConverter.class)
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Company employer;
 
+    @NotNull
+    @Email
+    @Column(unique = true)
     private String email;
+
+    @Size(min = 14, max = 14)
     private String cpf;
+
     private String jobTitle;
+
     private String seed;
 
     public Company getEmployer() {
