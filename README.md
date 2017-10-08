@@ -1,1 +1,1 @@
-"# Spring Boot and H2" 
+Documentation available at https://github.com/gustblima/spring-boot-rest-api/wiki
