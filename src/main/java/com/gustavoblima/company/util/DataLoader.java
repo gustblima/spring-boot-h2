@@ -47,11 +47,8 @@ public class DataLoader implements CommandLineRunner {
             employee.setJobTitle(titles[random.nextInt(titles.length)]);
 
             // TODO arrumar o cpf
-            employee.setCpf("46262462");
+            employee.setCpf("11111111111111");
             employeeRepository.saveAndFlush(employee);
         });
-
-
-
     }
 }
