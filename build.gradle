@@ -10,13 +10,21 @@ buildscript {
 	}
 }
 
+plugins {
+	id 'net.ltgt.apt' version '0.9'
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 group = 'com.gustavoblima'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+ext {
+	mapstructVersion = "1.2.0.CR1"
+}
 
 repositories {
 	mavenCentral()
@@ -29,28 +37,40 @@ processResources {
 
 
 dependencies {
+    compile "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	runtime('com.h2database:h2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
+	apt "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
 }
 
-buildscript {
-	repositories { jcenter() }
-	dependencies {
-		classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.7.RELEASE"
-		classpath 'org.springframework:springloaded:1.2.6.RELEASE'
+
+def generatedSources = "$buildDir/generated"
+def generatedOutputDir = file("$generatedSources")
+
+/*
+ create generated .java files in different folder than classes
+ In IntelliJ 2016.3.x: Enable Annotation Processing, then set generated sources,
+ relative to module output dir, at path '../../generated'
+ */
+compileJava {
+	doFirst {
+		generatedOutputDir.exists() || generatedOutputDir.mkdirs()
+		options.compilerArgs = [
+				'-s', "${generatedSources}"
+		]
 	}
 }
 
-apply plugin: 'idea'
 
 idea {
 	module {
-		inheritOutputDirs = false
-		outputDir = file("$buildDir/classes/main/")
+		downloadSources = true
+		// tell intellij where to find generated sources
+		sourceDirs += generatedOutputDir
 	}
 }
