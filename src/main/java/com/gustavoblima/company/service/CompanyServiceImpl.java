@@ -11,6 +11,9 @@ import com.gustavoblima.company.util.CompanyEmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +30,9 @@ public class CompanyServiceImpl implements CompanyService {
     IndustryRepository industryRepository;
 
     @Override
-    public List<CompanyDTO> findCompanies(String name) {
-        return mapper.companiesToCompanyDTOs(companyRepository.findFiltered(name));
+    public Page<CompanyDTO> findCompanies(String name, Pageable pageable) {
+        List<CompanyDTO> companies = mapper.companiesToCompanyDTOs(companyRepository.findFiltered(name, pageable));
+        return new PageImpl<CompanyDTO>(companies, pageable, companies.size());
     }
 
     @Override

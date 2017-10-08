@@ -8,6 +8,9 @@ import com.gustavoblima.company.repository.CompanyRepository;
 import com.gustavoblima.company.repository.EmployeeRepository;
 import com.gustavoblima.company.util.CompanyEmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +26,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     CompanyEmployeeMapper mapper;
 
     @Override
-    public List<EmployeeDTO> findEmployees(String jobTitle) {
-        return mapper.employeesToEmployeesDTOs(employeeRepository.findFiltered(jobTitle));
+    public Page<EmployeeDTO> findEmployees(String jobTitle, Pageable pageable) {
+        List<EmployeeDTO> employees = mapper.employeesToEmployeesDTOs(employeeRepository.findFiltered(jobTitle, pageable));
+        return new PageImpl<EmployeeDTO>(employees, pageable, employees.size());
     }
 
     @Override

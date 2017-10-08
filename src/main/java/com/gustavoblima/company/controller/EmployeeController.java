@@ -7,6 +7,8 @@ import com.gustavoblima.company.entity.Employee;
 import com.gustavoblima.company.exception.CompanyNotFoundException;
 import com.gustavoblima.company.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +24,9 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @RequestMapping(method = RequestMethod.GET)
-    ResponseEntity<Collection<EmployeeDTO>>getEmployees(@RequestParam(value = "job", required = false) String job){
-         return new ResponseEntity<Collection<EmployeeDTO>>(employeeService.findEmployees(job), HttpStatus.OK);
+    ResponseEntity<Page<EmployeeDTO>>getEmployees(@RequestParam(value = "job", required = false) String job,
+                                                  Pageable pageable){
+         return new ResponseEntity<Page<EmployeeDTO>>(employeeService.findEmployees(job, pageable), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{employeeId}")

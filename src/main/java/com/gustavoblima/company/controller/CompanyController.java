@@ -7,6 +7,8 @@ import com.gustavoblima.company.entity.Employee;
 import com.gustavoblima.company.exception.IndustryNotFoundException;
 import com.gustavoblima.company.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +24,9 @@ public class CompanyController {
     CompanyService companyService;
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Collection<CompanyDTO>> getCompanies(@RequestParam(value = "name", required = false) String name){
-        return new ResponseEntity<Collection<CompanyDTO>>(companyService.findCompanies(name), HttpStatus.OK);
+    ResponseEntity<Page<CompanyDTO>> getCompanies(@RequestParam(value = "name", required = false) String name,
+                                                  Pageable pageable){
+        return new ResponseEntity<Page<CompanyDTO>>(companyService.findCompanies(name, pageable), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
