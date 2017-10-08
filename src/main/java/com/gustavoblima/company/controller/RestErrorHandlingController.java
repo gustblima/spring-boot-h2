@@ -66,4 +66,5 @@ public class RestErrorHandlingController extends ResponseEntityExceptionHandler 
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return new ResponseEntity<Object>(new ApiErrorDTO(500), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }
