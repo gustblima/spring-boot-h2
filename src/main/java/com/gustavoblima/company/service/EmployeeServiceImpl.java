@@ -17,13 +17,13 @@ import java.util.List;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
-    EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
-    CompanyRepository companyRepository;
+    private CompanyRepository companyRepository;
 
     @Autowired
-    CompanyEmployeeMapper mapper;
+    private CompanyEmployeeMapper mapper;
 
     @Override
     public Page<EmployeeDTO> findEmployees(String jobTitle, Pageable pageable) {
@@ -39,7 +39,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         Employee employeeEntity = mapper.employeeDtoToEmployee(employee);
         employeeEntity.setEmployer(company);
-        return mapper.employeeToEmployeeDTO(employeeRepository.saveAndFlush(employeeEntity));
+        employeeEntity.setId(null);
+        employeeEntity = employeeRepository.saveAndFlush(employeeEntity);
+        return new EmployeeDTO(employeeEntity.getId());
     }
 
     @Override
