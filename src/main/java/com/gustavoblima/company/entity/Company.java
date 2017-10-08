@@ -28,18 +28,16 @@ public class Company{
 
     @NotNull
     @Column(unique = true, length = 18)
-    @Size(min=18, max=18)
+    @Size(min=14, max=14)
     private String cnpj;
 
     @JsonIgnore
     @OneToMany(mappedBy = "employer", fetch = FetchType.LAZY)
     private List<Employee> employees = new ArrayList<>();
 
-    @Size(min=5, max = 20)
     @Column(length = 20)
     private String telephone;
 
-    @Size(min = 3)
     private String website;
 
     public List<Employee> getEmployees() {

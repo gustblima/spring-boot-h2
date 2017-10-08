@@ -13,6 +13,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -20,18 +21,21 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class DataLoader implements CommandLineRunner {
     @Autowired
-    EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
-    CompanyRepository companyRepository;
+    private CompanyRepository companyRepository;
 
+
+    @Value("${config.randomUserURI}")
+    private String randomUserURI;
 
     @Override
     public void run(String... args) throws Exception {
 
         RestTemplate restTemplate = new RestTemplate();
         RUWrapperDTO randomUserResult = restTemplate
-                .getForObject("https://randomuser.me/api/?inc=gender,email,name,seed&results=10", RUWrapperDTO.class);
+                .getForObject(randomUserURI, RUWrapperDTO.class);
 
         String seed = randomUserResult.getInfo().getSeed();
         Random random = new Random();
@@ -45,9 +49,6 @@ public class DataLoader implements CommandLineRunner {
             employee.setSeed(seed);
             employee.setEmployer(companies.get(random.nextInt(companies.size())));
             employee.setJobTitle(titles[random.nextInt(titles.length)]);
-
-            // TODO arrumar o cpf
-            employee.setCpf("11111111111111");
             employeeRepository.saveAndFlush(employee);
         });
     }

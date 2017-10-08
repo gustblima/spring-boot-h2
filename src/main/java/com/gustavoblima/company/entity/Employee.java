@@ -27,13 +27,12 @@ public class Employee{
     @ManyToOne(fetch = FetchType.EAGER)
     private Company employer;
 
-    @NotNull
     @Email
     @Column(unique = true)
     private String email;
 
     @Column(length = 14)
-    @Size(min = 14, max = 14)
+    @Size(min = 11, max = 11)
     private String cpf;
 
     @Column(length = 100)
