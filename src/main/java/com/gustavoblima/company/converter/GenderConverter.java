@@ -5,14 +5,14 @@ import com.gustavoblima.company.entity.Gender;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-@Converter
+@Converter(autoApply = true)
 public class GenderConverter implements AttributeConverter<Gender, String> {
 
     @Override
     public String convertToDatabaseColumn(Gender attribute) {
-        if (attribute == Gender.MALE){
+        if (attribute == Gender.male){
             return "male";
-        } else if (attribute == Gender.FEMALE){
+        } else if (attribute == Gender.female){
             return "female";
         }
         throw new IllegalArgumentException("Unknown" + attribute);
@@ -22,9 +22,9 @@ public class GenderConverter implements AttributeConverter<Gender, String> {
     @Override
     public Gender convertToEntityAttribute(String dbData) {
         if (dbData.equals("male")) {
-            return Gender.MALE;
+            return Gender.male;
         } else if (dbData.equals("female")){
-            return Gender.FEMALE;
+            return Gender.female;
         }
         throw new IllegalArgumentException("Unknown" + dbData);
     }
