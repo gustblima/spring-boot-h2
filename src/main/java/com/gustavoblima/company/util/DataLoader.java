@@ -5,24 +5,17 @@ import com.gustavoblima.company.dto.RUResultDTO;
 import com.gustavoblima.company.dto.RUWrapperDTO;
 import com.gustavoblima.company.entity.Company;
 import com.gustavoblima.company.entity.Employee;
-import com.gustavoblima.company.entity.Industry;
 import com.gustavoblima.company.repository.CompanyRepository;
 import com.gustavoblima.company.repository.EmployeeRepository;
-import com.gustavoblima.company.service.IEmployeeService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import javax.print.DocFlavor;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -52,7 +45,10 @@ public class DataLoader implements CommandLineRunner {
             employee.setSeed(seed);
             employee.setEmployer(companies.get(random.nextInt(companies.size())));
             employee.setJobTitle(titles[random.nextInt(titles.length)]);
+
+            // TODO arrumar o cpf
             employee.setCpf("46262462");
+            employeeRepository.saveAndFlush(employee);
         });
 
 
