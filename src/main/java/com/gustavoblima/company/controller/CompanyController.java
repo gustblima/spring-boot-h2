@@ -1,7 +1,11 @@
 package com.gustavoblima.company.controller;
 
+import com.gustavoblima.company.dto.ApiErrorDTO;
+import com.gustavoblima.company.dto.CompanyDTO;
 import com.gustavoblima.company.entity.Company;
-import com.gustavoblima.company.service.ICompanyService;
+import com.gustavoblima.company.entity.Employee;
+import com.gustavoblima.company.exception.IndustryNotFoundException;
+import com.gustavoblima.company.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,31 +19,25 @@ import java.util.Collection;
 public class CompanyController {
 
     @Autowired
-    ICompanyService companyService;
+    CompanyService companyService;
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Collection<Company>> getCompanies(@RequestParam(value = "name", required = false) String name){
-        try{
-            return new ResponseEntity<Collection<Company>>(companyService.findCompanies(name), HttpStatus.OK);
-        } catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+    ResponseEntity<Collection<CompanyDTO>> getCompanies(@RequestParam(value = "name", required = false) String name){
+        return new ResponseEntity<Collection<CompanyDTO>>(companyService.findCompanies(name), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    Company getCompany(@PathVariable Long companyId){
+    ResponseEntity<CompanyDTO> getCompany(@PathVariable Long companyId){
+        CompanyDTO companyDTO = companyService.findCompany(companyId);
+        if(companyDTO == null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<CompanyDTO>(companyDTO, HttpStatus.OK);
 
-        return  null;
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE )
-    ResponseEntity<Company> registerCompany(@RequestBody Company company){
-        try{
-            return new ResponseEntity<Company>(companyService.createCompany(company), HttpStatus.CREATED);
-        } catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+    ResponseEntity<CompanyDTO> registerCompany(@RequestBody CompanyDTO company) throws IndustryNotFoundException{
+       return new ResponseEntity<CompanyDTO>(companyService.createCompany(company), HttpStatus.CREATED);
     }
 }
