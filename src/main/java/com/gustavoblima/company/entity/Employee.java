@@ -32,9 +32,11 @@ public class Employee{
     @Column(unique = true)
     private String email;
 
+    @Column(length = 14)
     @Size(min = 14, max = 14)
     private String cpf;
 
+    @Column(length = 100)
     private String jobTitle;
 
     private String seed;

@@ -27,7 +27,7 @@ public class Company{
     private String name;
 
     @NotNull
-    @Column(unique = true)
+    @Column(unique = true, length = 18)
     @Size(min=18, max=18)
     private String cnpj;
 
@@ -36,6 +36,7 @@ public class Company{
     private List<Employee> employees = new ArrayList<>();
 
     @Size(min=5, max = 20)
+    @Column(length = 20)
     private String telephone;
 
     @Size(min = 3)
