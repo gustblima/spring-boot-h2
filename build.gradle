@@ -66,6 +66,8 @@ compileJava {
 	}
 }
 
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
 
 idea {
 	module {
